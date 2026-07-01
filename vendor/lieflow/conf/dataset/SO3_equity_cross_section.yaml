@@ -1,0 +1,27 @@
+# @package _global_
+# Real equity cross-section clouds for SO(3) symmetry discovery (MI-Motion analogue).
+dataset:
+  name: SO3_equity_cross_section
+  group: "SO3"
+  batch_size: 128
+  num_workers: 0
+
+  train:
+    _target_: lieflow_quant.dataset.CrossSectionCloudDataset
+    data_path: ../../data/equity/clouds.npy
+    metadata_path: ../../data/equity/metadata.npz
+    split: train
+    train_ratio: 0.8
+    num_samples: 2_000
+    random_seed: 42
+    regime: null
+
+  test:
+    _target_: lieflow_quant.dataset.CrossSectionCloudDataset
+    data_path: ../../data/equity/clouds.npy
+    metadata_path: ../../data/equity/metadata.npz
+    split: test
+    train_ratio: 0.8
+    num_samples: 500
+    random_seed: 42
+    regime: null

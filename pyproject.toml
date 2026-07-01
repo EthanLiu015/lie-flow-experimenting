@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=77.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lieflow-quant"
+version = "0.1.0"
+description = "Quantitative finance extensions for LieFlow symmetry discovery"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "lieflow",
+    "numpy",
+    "pandas",
+    "yfinance",
+    "matplotlib",
+    "scipy",
+    "torch",
+    "hydra-core",
+    "omegaconf",
+    "tqdm",
+]
+
+[project.optional-dependencies]
+dev = ["jupyter", "ipykernel"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+lieflow_quant = ["py.typed"]

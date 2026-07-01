@@ -1,0 +1,41 @@
+# @package _global_
+# Synthetic 2D factor cross-section with imposed C4 symmetry.
+# Canonical object: data/synthetic/factor_cross_section_canonical.npy (20 x 2)
+dataset:
+  name: C4_factor_cross_section
+  group: "C_4"
+  batch_size: 256
+  num_workers: 0
+  train:
+    _target_: lieflow.data.sampling_dataset.DistributionSamplingDataset
+    dist:
+      _target_: lieflow.distributions.ObjectTransformDistribution
+      base_dist:
+        _target_: lieflow.distributions.DiscreteDeltaMixture
+        group: ${dataset.group}
+        locs:
+          _target_: lieflow.distributions.Cn_elements_on_R2
+          group_order: 4
+          representation: "matrix"
+      base_object:
+        _target_: lieflow_quant.objects.FileObject
+        path: ../../data/synthetic/factor_cross_section_canonical.npy
+    num_samples: 5_000
+    return_transform: False
+
+  test:
+    _target_: lieflow.data.sampling_dataset.DistributionSamplingDataset
+    dist:
+      _target_: lieflow.distributions.ObjectTransformDistribution
+      base_dist:
+        _target_: lieflow.distributions.DiscreteDeltaMixture
+        group: ${dataset.group}
+        locs:
+          _target_: lieflow.distributions.Cn_elements_on_R2
+          group_order: 4
+          representation: "matrix"
+      base_object:
+        _target_: lieflow_quant.objects.FileObject
+        path: ../../data/synthetic/factor_cross_section_canonical.npy
+    num_samples: 1_000
+    return_transform: true

@@ -1,0 +1,12 @@
+# @package _global_
+defaults:
+  - SO3_equity_cross_section
+  - _self_
+
+dataset:
+  name: SO3_equity_high
+  train:
+    regime: high
+  test:
+    regime: high
+    num_samples: 300
