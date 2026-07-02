@@ -1,0 +1,22 @@
+{
+  "version": "2.1.0",
+  "source": "loop-pnl-sharpe",
+  "timestamp": "2026-07-01T21:29:29.933464",
+  "status": "CONVERGED",
+  "results_tsv": "/Users/ethan/Documents/Duke Year 1/lie-flow-experimenting/autoresearch/loop-pnl-sharpe-260701-2129/results.tsv",
+  "commit": "83f3454",
+  "findings": [
+    "best_composite=raw_vol s20 cost5",
+    "composite_score=0.2670",
+    "min_sharpe=0.5563",
+    "mean_total_return=0.2366",
+    "coverage=100.00%",
+    "best_pnl_eligible=raw_vol s20 cost5"
+  ],
+  "config": {
+    "goal": "maximize PnL while caring about Sharpe",
+    "metric": "composite_pnl_sharpe",
+    "sharpe_floor": 0.3,
+    "direction": "higher_is_better"
+  }
+}

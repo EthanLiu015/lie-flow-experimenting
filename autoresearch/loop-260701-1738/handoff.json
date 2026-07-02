@@ -1,0 +1,18 @@
+{
+  "version": "2.1.0",
+  "source": "loop",
+  "timestamp": "2026-07-01T17:39:39.682089",
+  "status": "COMPLETE",
+  "results_tsv": "/Users/ethan/Documents/Duke Year 1/lie-flow-experimenting/autoresearch/loop-260701-1738/results.tsv",
+  "findings": [
+    "best_sharpe=1.6879",
+    "kept=6 discarded=11",
+    "Root cause: canonical_momentum had high turnover and weak IC; canonical_vol with 20d smoothing is predictive",
+    "Bug fixes: ticker dedup, no padding, temporal split, benchmark universe parity"
+  ],
+  "config": {
+    "goal": "positive Sharpe on OOS tail",
+    "metric": "sharpe",
+    "direction": "higher_is_better"
+  }
+}

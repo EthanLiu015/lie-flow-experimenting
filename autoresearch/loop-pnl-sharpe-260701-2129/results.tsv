@@ -1,0 +1,22 @@
+# metric_direction: higher_is_better (composite_pnl_sharpe)
+name	min_sharpe	mean_sharpe	mean_return	min_return	coverage	composite	status
+raw_vol s10	0.4321	0.8502	0.1887	0.1237	100.00%	0.2128	keep
+raw_vol s15	0.4458	0.8761	0.1977	0.1200	100.00%	0.2223	keep
+raw_vol s20	0.4743	0.9073	0.2088	0.1142	100.00%	0.2348	keep
+raw_vol s25	0.5189	0.9466	0.2231	0.1225	100.00%	0.2515	keep
+raw_vol s20 cost5	0.5563	0.9943	0.2366	0.1300	100.00%	0.2670	keep
+hybrid conc0.9 s20	0.2226	1.0698	0.1675	0.0351	100.00%	-99.7774	discard
+hybrid conc1.0 s10	0.3832	1.0657	0.1596	0.0661	100.00%	0.1801	discard
+hybrid conc1.0 s15	0.3584	1.1098	0.1667	0.0619	100.00%	0.1858	discard
+hybrid conc1.0 s20	0.2811	1.1407	0.1730	0.0465	100.00%	-99.7189	discard
+hybrid conc1.0 s25	0.2885	1.1179	0.1689	0.0487	100.00%	-99.7115	discard
+hybrid conc1.0 cost5 s20	0.3310	1.2182	0.1887	0.0572	100.00%	0.2064	discard
+hybrid conc1.05 s20	0.6106	1.5603	0.1526	0.0782	100.00%	0.1846	discard
+hybrid conc1.1 s20	0.6593	1.4010	0.1247	0.0806	100.00%	0.1593	discard
+hybrid conc1.2 w0.3 s20	1.0870	1.9356	0.1279	0.0429	100.00%	0.1832	discard
+hybrid conc1.2 w0.5 s20	1.0870	1.9356	0.1279	0.0429	100.00%	0.1832	discard
+hybrid conc1.2 w0.7 s20	1.0870	1.9356	0.1279	0.0429	100.00%	0.1832	discard
+canonical_vol s15	0.0217	0.3987	0.0541	-0.0073	100.00%	-99.9783	discard
+canonical_vol s20	0.1114	0.4923	0.0763	0.0176	100.00%	-99.8886	discard
+canonical_vol s25	0.1476	0.5697	0.0934	0.0291	100.00%	-99.8524	discard
+mom_minus_vol flip s25	-0.0040	0.3858	0.0525	-0.0131	100.00%	-100.0040	discard

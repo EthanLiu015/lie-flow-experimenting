@@ -8,7 +8,11 @@ from pathlib import Path
 
 import numpy as np
 
-from lieflow_quant.panel import build_daily_cross_sections, load_equity_panel
+from lieflow_quant.panel import (
+    assign_expanding_vix_regime,
+    build_daily_cross_sections,
+    load_equity_panel,
+)
 
 
 def main() -> None:
@@ -18,6 +22,7 @@ def main() -> None:
     parser.add_argument("--momentum-window", type=int, default=20)
     parser.add_argument("--vol-window", type=int, default=20)
     parser.add_argument("--min-stocks", type=int, default=40)
+    parser.add_argument("--n-target", type=int, default=50)
     args = parser.parse_args()
 
     close, vix = load_equity_panel(args.input_dir)
@@ -26,6 +31,7 @@ def main() -> None:
         momentum_window=args.momentum_window,
         vol_window=args.vol_window,
         min_stocks=args.min_stocks,
+        n_target=args.n_target,
         vix=vix,
     )
 
@@ -36,12 +42,7 @@ def main() -> None:
     )
     tickers_arr = np.array([s.tickers for s in sections], dtype=object)
 
-    valid_vix = vix_arr[~np.isnan(vix_arr)]
-    q33, q66 = np.percentile(valid_vix, [33.33, 66.67])
-    regime = np.full(len(vix_arr), "mid", dtype=object)
-    regime[vix_arr <= q33] = "low"
-    regime[vix_arr > q66] = "high"
-    regime[np.isnan(vix_arr)] = "unknown"
+    regime = assign_expanding_vix_regime(vix_arr)
 
     args.output_dir.mkdir(parents=True, exist_ok=True)
     np.save(args.output_dir / "clouds.npy", clouds_arr)
@@ -51,8 +52,6 @@ def main() -> None:
         vix=vix_arr,
         regime=regime,
         tickers=tickers_arr,
-        vix_q33=q33,
-        vix_q66=q66,
     )
     print(
         f"Built {clouds_arr.shape[0]} daily clouds "

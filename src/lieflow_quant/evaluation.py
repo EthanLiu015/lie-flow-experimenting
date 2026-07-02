@@ -23,10 +23,20 @@ def angle_histogram_peaks(
     hist, bin_edges = np.histogram(angles, bins=72, range=(0, 360))
     bin_centers = (bin_edges[:-1] + bin_edges[1:]) / 2
 
-    height_thresh = max(hist.max() * min_peak_height_ratio, 1.0)
-    peak_idx, _ = find_peaks(hist, height=height_thresh, distance=3)
-    peak_angles = bin_centers[peak_idx]
-    peak_heights = hist[peak_idx]
+    # Fold 360° wrap into 0° so peaks at 0/270° are not split across bin edges.
+    hist_circ = hist.astype(float).copy()
+    hist_circ[0] += hist_circ[-1]
+    hist_search = hist_circ[:-1]
+    centers_search = bin_centers[:-1]
+
+    height_thresh = max(hist_search.max() * min_peak_height_ratio, 1.0)
+    pad = 3
+    hist_pad = np.concatenate([hist_search[-pad:], hist_search, hist_search[:pad]])
+    peak_idx_pad, _ = find_peaks(hist_pad, height=height_thresh, distance=3)
+    peak_idx = np.array([(int(i) - pad) % len(hist_search) for i in peak_idx_pad])
+    peak_idx = np.unique(peak_idx)
+    peak_angles = centers_search[peak_idx]
+    peak_heights = hist_search[peak_idx]
 
     # Match each C4 element to nearest detected peak.
     matched = []

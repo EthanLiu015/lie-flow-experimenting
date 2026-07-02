@@ -1,0 +1,19 @@
+{
+  "version": "2.1.0",
+  "source": "loop-lieflow-v2-round2",
+  "timestamp": "2026-07-01T19:50:57.285029",
+  "status": "CONVERGED_PARTIAL",
+  "results_tsv": "autoresearch/loop-lieflow-v2-round2-260701-2030/results.tsv",
+  "findings": [
+    "4 configs achieve all_windows_positive at 10bps n=60",
+    "best_pure_lieflow: mom_minus_vol sign=-1 smooth=25 min_sharpe=0.029",
+    "best_hybrid: hybrid vol conc1.2 w0.5 min_sharpe=1.089 (sparse ~25% days)",
+    "best_full_coverage: raw_vol smooth=20 min_sharpe=0.474",
+    "delta signals and radial_gated failed all windows"
+  ],
+  "config": {
+    "goal": "positive Sharpe all validation windows",
+    "metric": "min_sharpe",
+    "direction": "higher_is_better"
+  }
+}

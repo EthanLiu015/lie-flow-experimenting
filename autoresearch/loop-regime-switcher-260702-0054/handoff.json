@@ -1,0 +1,7 @@
+{
+  "status": "CONVERGED",
+  "best": "regime mom_resid_vol sm20 w0.25 cg0.95 cb0.75 mn0.35 neu0.70 boostmid",
+  "best_composite": 0.8767912726224276,
+  "results_tsv": "/Users/ethan/Documents/Duke Year 1/lie-flow-experimenting/autoresearch/loop-regime-switcher-260702-0054/results.tsv",
+  "commit": "83f3454"
+}

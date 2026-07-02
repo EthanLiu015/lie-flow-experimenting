@@ -22,7 +22,9 @@ def generate_daily_signals(
     concentration_window: int = 60,
     min_exposure: float = 0.25,
     max_exposure: float = 1.0,
-    signal_feature: str = "canonical_momentum",
+    signal_feature: str = "canonical_vol",
+    signal_sign: float = 1.0,
+    signal_smoothing: int = 20,
     seed: int = 42,
 ) -> pd.DataFrame:
     """
@@ -46,14 +48,17 @@ def generate_daily_signals(
         )
         concentrations.append(out["concentration"])
 
-        if len(concentrations) >= concentration_window:
-            med = float(np.median(concentrations[-concentration_window:]))
+        prior = concentrations[:-1]
+        if len(prior) >= concentration_window:
+            med = float(np.median(prior[-concentration_window:]))
+        elif prior:
+            med = float(np.median(prior))
         else:
-            med = float(np.median(concentrations)) if concentrations else 1.0
+            med = 1.0
         med = max(med, 1e-6)
         gross = float(np.clip(out["concentration"] / med, min_exposure, max_exposure))
 
-        values = out[signal_feature]
+        values = out[signal_feature] * signal_sign
         for ticker, val in zip(section.tickers, values):
             rows.append(
                 {
@@ -68,7 +73,20 @@ def generate_daily_signals(
                 }
             )
 
-    return pd.DataFrame(rows)
+    df = pd.DataFrame(rows)
+    if not df.empty:
+        df = (
+            df.groupby(["date", "ticker"], as_index=False)
+            .agg({"signal": "mean", "concentration": "first", "gross_exposure": "first",
+                  "z_rotation_median_deg": "first", "regime": "first", "vix": "first"})
+        )
+    if signal_smoothing > 1 and not df.empty:
+        df = df.sort_values(["ticker", "date"])
+        df["signal"] = (
+            df.groupby("ticker")["signal"]
+            .transform(lambda s: s.rolling(signal_smoothing, min_periods=1).mean())
+        )
+    return df
 
 
 def run_signal_pipeline(
@@ -82,6 +100,9 @@ def run_signal_pipeline(
     max_days: int | None = None,
     n_mc: int = 16,
     concentration_window: int = 60,
+    signal_feature: str = "canonical_vol",
+    signal_sign: float = 1.0,
+    signal_smoothing: int = 20,
 ) -> pd.DataFrame:
     """End-to-end signal generation with optional out-of-sample tail filter."""
     data_dir = Path(data_dir)
@@ -109,6 +130,9 @@ def run_signal_pipeline(
         n_steps=n_steps,
         n_mc=n_mc,
         concentration_window=concentration_window,
+        signal_feature=signal_feature,
+        signal_sign=signal_sign,
+        signal_smoothing=signal_smoothing,
     )
 
     output_path = Path(output_path)

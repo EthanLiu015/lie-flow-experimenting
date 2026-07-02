@@ -1,0 +1,10 @@
+{
+  "status": "CONVERGED",
+  "winner_phase": "factor_timing",
+  "winner": "timing sm22 thr0.45 tmin0.00 soft cw45",
+  "beats_raw_vol": true,
+  "raw_holdout_sharpe": 1.6884767866366341,
+  "raw_holdout_return": 0.32512104749977544,
+  "commit": "83f3454",
+  "results_dir": "/Users/ethan/Documents/Duke Year 1/lie-flow-experimenting/autoresearch/loop-timing-overlay-260702-0120"
+}

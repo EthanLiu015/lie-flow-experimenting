@@ -1,0 +1,6 @@
+{
+  "status": "CONVERGED",
+  "n_winners": 6,
+  "best": "hybrid c1.02 s16 exp0.5-1.25",
+  "results_tsv": "/Users/ethan/Documents/Duke Year 1/lie-flow-experimenting/autoresearch/loop-lieflow-target-260701-2156/results.tsv"
+}

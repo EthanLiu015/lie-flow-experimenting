@@ -1,0 +1,18 @@
+name	min_sharpe	mean_sharpe	all_windows_positive	n_positive	verdict
+raw_vol baseline smooth20	0.4740	0.9060	True	6	keep
+radial smooth20	-0.5970	-0.2260	False	1	discard
+radial smooth25	-0.6630	-0.2120	False	2	discard
+canonical_mom smooth15	-0.8220	-0.1890	False	1	discard
+canonical_mom smooth20	-0.6320	-0.0610	False	1	discard
+mom_minus_vol flip s10	-0.6400	-0.0750	False	2	discard
+mom_minus_vol flip s15	-0.3090	0.0200	False	3	discard
+mom_minus_vol flip s20	-0.2320	0.2030	False	5	discard
+mom_minus_vol flip s25	0.0290	0.3820	True	6	keep
+mom_minus_vol flip cost5 s15	0.0860	0.4600	True	6	keep
+radial smooth20 cost5	-0.1660	0.2620	False	5	discard
+hybrid vol conc1.0 s20	0.2990	1.1380	True	6	keep
+hybrid vol conc1.0 cost5	0.3490	1.2150	True	6	keep
+hybrid vol conc1.2 w0.5	1.0890	1.9360	True	6	keep
+radial_gated 1.05 s20	-0.8490	-0.4440	False	1	discard
+conc_scaled_mom s15	-1.0370	-0.3400	False	2	discard
+mom_resid s15 cost5	-1.2510	0.1710	False	4	discard

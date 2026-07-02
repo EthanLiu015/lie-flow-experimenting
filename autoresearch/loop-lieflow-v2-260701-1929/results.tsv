@@ -1,0 +1,27 @@
+# metric_direction: higher_is_better (min_sharpe across 6 windows @ 10bps)
+iteration	timestamp	commit	min_sharpe	mean_sharpe	all_pos	guard	status	description
+0	2026-07-01T19:29:51.150095	83f3454	-1.163863	-0.550015	False	pass	keep	baseline radial smooth10
+1	2026-07-01T19:30:19.650165	83f3454	-0.596796	-0.225918	False	pass	keep	radial smooth20
+2	2026-07-01T19:30:48.898888	83f3454	-2.613650	-1.889911	False	pass	discard	radial sign flip
+3	2026-07-01T19:31:19.476315	83f3454	-2.554381	-1.209426	False	pass	discard	mom_resid_vol smooth10
+4	2026-07-01T19:31:49.789522	83f3454	-1.935817	-0.585584	False	pass	discard	mom_resid_vol smooth20
+5	2026-07-01T19:32:23.180912	83f3454	-4.005161	-3.012124	False	pass	discard	mom_resid_vol flip
+6	2026-07-01T19:32:52.589409	83f3454	-2.903622	-2.099113	False	pass	discard	mom_minus_vol smooth10
+7	2026-07-01T19:33:22.607405	83f3454	-7.569407	-5.631901	False	pass	discard	delta_momentum smooth5
+8	2026-07-01T19:33:51.500991	83f3454	-8.695392	-7.610299	False	pass	discard	delta_radial smooth5
+9	2026-07-01T19:34:21.198159	83f3454	-7.852671	-5.888874	False	pass	discard	delta_vol smooth5
+10	2026-07-01T19:34:50.927769	83f3454	-1.248814	-0.681023	False	pass	discard	radial_gated conc>=1.0
+11	2026-07-01T19:35:19.924040	83f3454	-1.530636	-0.667839	False	pass	discard	radial_gated conc>=1.2
+12	2026-07-01T19:35:51.288143	83f3454	-3.673343	-1.470735	False	pass	discard	mom_resid_gated conc>=1.0
+13	2026-07-01T19:36:19.398810	83f3454	-1.315443	-0.871810	False	pass	discard	conc_scaled_momentum smooth10
+14	2026-07-01T19:36:47.136434	83f3454	-0.632187	-0.061306	False	pass	discard	canonical_mom smooth20
+15	2026-07-01T19:36:51.724264	-	-	-	-	fail	crash	hybrid vol conc>=1.0: Command '['/Users/ethan/Documents/Duke Year 1/lie-flow-experimenting/.venv/bin/python', '/Users/ethan/Documents/Duke Year 1/lie-flow-experimenting/scripts/eval_multiwindow.py', '--output-json', '/tmp/ar_multiwindow.json', '--hybrid-vol', '--min-concentration-ratio', '1.0', '--signal-smoothing', '20']' returned non-zero exit status 1.
+16	2026-07-01T19:36:56.315878	-	-	-	-	fail	crash	hybrid vol conc>=1.2 w0.7: Command '['/Users/ethan/Documents/Duke Year 1/lie-flow-experimenting/.venv/bin/python', '/Users/ethan/Documents/Duke Year 1/lie-flow-experimenting/scripts/eval_multiwindow.py', '--output-json', '/tmp/ar_multiwindow.json', '--hybrid-vol', '--min-concentration-ratio', '1.2', '--lieflow-weight', '0.7', '--signal-smoothing', '20']' returned non-zero exit status 1.
+17	2026-07-01T19:37:24.327276	83f3454	-0.859799	-0.663000	False	pass	discard	radial lag2 smooth10
+18	2026-07-01T19:37:54.132909	83f3454	-1.054450	-0.152715	False	pass	discard	mom_resid cost5 smooth10
+19	2026-07-01T19:38:05.938282	-	-	-	-	fail	crash	radial regime mid: too few days in wf_2015_2017
+20	2026-07-01T19:38:33.794509	83f3454	-7.496679	-6.229138	False	pass	discard	delta_radial smooth10 flip
+21	2026-07-01T19:39:05.891744	83f3454	-3.614737	-2.028651	False	pass	discard	mom_resid smooth5 cost10
+22	2026-07-01T19:39:32.884028	83f3454	-1.062256	-0.627326	False	pass	discard	radial smooth15 gated1.1
+23	2026-07-01T19:40:00.321597	83f3454	-0.309379	0.019536	False	pass	keep	mom_minus_vol flip smooth15
+24	2026-07-01T19:40:27.320072	83f3454	-7.603405	-5.399674	False	pass	discard	delta_momentum smooth10 flip

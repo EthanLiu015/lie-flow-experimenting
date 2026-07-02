@@ -1,0 +1,50 @@
+name	holdout_sharpe	holdout_ret	full_min_sharpe	full_mean_ann	alpha_inf	beats_raw	selection	eligible
+alpha mom_minus_vol s-1 w0.30 sm16	0.5970	0.0813	-0.1517	0.0386	1.0000	False	0.6371	False
+alpha mom_minus_vol s-1 w0.30 sm20	0.8291	0.1182	-0.0459	0.0455	1.0000	False	0.8869	False
+alpha mom_minus_vol s-1 w0.45 sm16	-0.3717	-0.0482	-0.6180	0.0210	1.0000	False	-0.3963	False
+alpha mom_minus_vol s-1 w0.45 sm20	-0.1039	-0.0166	-0.5090	0.0275	1.0000	False	-0.1123	False
+alpha mom_minus_vol s-1 w0.60 sm16	-1.1573	-0.1221	-1.1573	0.0103	1.0000	False	-1.2207	False
+alpha mom_minus_vol s-1 w0.60 sm20	-0.8639	-0.0933	-0.8639	0.0166	1.0000	False	-0.9120	False
+alpha mom_minus_vol s1 w0.30 sm16	1.1543	0.1848	0.1604	0.0518	1.0000	False	1.2433	False
+alpha mom_minus_vol s1 w0.30 sm20	1.1023	0.1804	0.1376	0.0534	1.0000	False	1.1893	False
+alpha mom_minus_vol s1 w0.45 sm16	0.9122	0.1220	-0.0270	0.0439	1.0000	False	0.9718	False
+alpha mom_minus_vol s1 w0.45 sm20	0.7670	0.1051	-0.0881	0.0438	1.0000	False	0.8185	False
+alpha mom_minus_vol s1 w0.60 sm16	0.6373	0.0705	-0.2048	0.0372	1.0000	False	0.6721	False
+alpha mom_minus_vol s1 w0.60 sm20	0.4250	0.0467	-0.2943	0.0361	1.0000	False	0.4482	False
+alpha mom_resid_vol s1 w0.30 sm16	1.3730	0.2319	0.2878	0.0576	1.0000	False	1.4836	False
+alpha mom_resid_vol s1 w0.30 sm20	1.4029	0.2425	0.3041	0.0610	1.0000	False	1.5184	False
+alpha mom_resid_vol s1 w0.45 sm16	1.2570	0.1989	0.2006	0.0536	1.0000	False	1.3525	False
+alpha mom_resid_vol s1 w0.45 sm20	1.2763	0.2084	0.2154	0.0568	1.0000	False	1.3762	False
+alpha mom_resid_vol s1 w0.60 sm16	1.0318	0.1462	0.0485	0.0470	1.0000	False	1.1029	False
+alpha mom_resid_vol s1 w0.60 sm20	1.0956	0.1607	0.0815	0.0509	1.0000	False	1.1734	False
+alpha canonical_vol s-1 w0.30 sm16	1.1398	0.1763	0.1370	0.0508	1.0000	False	1.2249	False
+alpha canonical_vol s-1 w0.30 sm20	1.2244	0.1965	0.1830	0.0554	1.0000	False	1.3188	False
+alpha canonical_vol s-1 w0.45 sm16	0.7818	0.0958	-0.1143	0.0405	1.0000	False	0.8288	False
+alpha canonical_vol s-1 w0.45 sm20	0.8955	0.1131	-0.0678	0.0448	1.0000	False	0.9509	False
+alpha canonical_vol s-1 w0.60 sm16	0.2133	0.0187	-0.4009	0.0302	1.0000	False	0.2227	False
+alpha canonical_vol s-1 w0.60 sm20	0.3734	0.0347	-0.3528	0.0345	1.0000	False	0.3907	False
+alpha canonical_vol s1 w0.30 sm16	1.0879	0.1656	0.1061	0.0494	1.0000	False	1.1680	False
+alpha canonical_vol s1 w0.30 sm20	1.2504	0.1952	0.1801	0.0552	1.0000	False	1.3443	False
+alpha canonical_vol s1 w0.45 sm16	0.6072	0.0789	-0.1634	0.0383	1.0000	False	0.6461	False
+alpha canonical_vol s1 w0.45 sm20	0.8564	0.1171	-0.0514	0.0453	1.0000	False	0.9137	False
+alpha canonical_vol s1 w0.60 sm16	-0.0802	-0.0131	-0.4927	0.0259	1.0000	False	-0.0868	False
+alpha canonical_vol s1 w0.60 sm20	0.2341	0.0249	-0.3648	0.0332	1.0000	False	0.2466	False
+alpha conc_scaled_momentum s1 w0.30 sm16	1.3476	0.2283	0.2780	0.0572	1.0000	False	1.4566	False
+alpha conc_scaled_momentum s1 w0.30 sm20	1.3518	0.2320	0.2765	0.0597	1.0000	False	1.4625	False
+alpha conc_scaled_momentum s1 w0.45 sm16	1.1637	0.1847	0.1603	0.0518	1.0000	False	1.2527	False
+alpha conc_scaled_momentum s1 w0.45 sm20	1.2463	0.2048	0.2050	0.0564	1.0000	False	1.3445	False
+alpha conc_scaled_momentum s1 w0.60 sm16	0.9167	0.1312	0.0037	0.0451	1.0000	False	0.9807	False
+alpha conc_scaled_momentum s1 w0.60 sm20	1.1542	0.1731	0.1178	0.0524	1.0000	False	1.2378	False
+adaptive mom_minus_vol w0.40 sm18	0.6463	0.0866	-0.1394	0.0404	1.0000	False	0.6890	False
+adaptive mom_minus_vol w0.55 sm18	0.2954	0.0320	-0.3354	0.0331	1.0000	False	0.3113	False
+adaptive mom_resid_vol w0.40 sm18	1.0555	0.1673	0.1080	0.0507	1.0000	False	1.1364	False
+adaptive mom_resid_vol w0.55 sm18	0.7372	0.1027	-0.0869	0.0425	1.0000	False	0.7876	False
+gate c0.5 w0.25 sm18	1.6322	0.3119	0.4511	0.0709	0.4028	False	1.7785	False
+gate c0.5 w0.40 sm18	1.6060	0.3021	0.4290	0.0698	0.4028	False	1.7479	False
+gate c0.7 w0.25 sm18	1.2805	0.2297	0.2482	0.0611	0.4028	False	1.3901	False
+gate c0.7 w0.40 sm18	1.2684	0.2251	0.2366	0.0605	0.4028	False	1.3759	False
+gate c0.9 w0.25 sm18	0.0712	0.0050	-0.4349	0.0321	0.4028	False	0.0737	False
+gate c0.9 w0.40 sm18	0.0701	0.0049	-0.4355	0.0321	0.4028	False	0.0725	False
+pure_alpha mom_resid_vol sm20	-0.1090	-0.0128	-0.5317	0.0280	1.0000	False	-0.1154	False
+pure_alpha radial_distance sm20	0.1810	0.0133	-0.4477	0.0316	1.0000	False	0.1877	False
+pure_alpha mom_minus_vol sm20	-0.6320	-0.0574	-0.7172	0.0218	1.0000	False	-0.6614	False

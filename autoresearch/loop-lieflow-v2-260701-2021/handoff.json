@@ -1,0 +1,17 @@
+{
+  "version": "2.1.0",
+  "source": "loop-lieflow-v2",
+  "timestamp": "2026-07-01T20:21:44.481912",
+  "status": "BOUNDED",
+  "results_tsv": "/Users/ethan/Documents/Duke Year 1/lie-flow-experimenting/autoresearch/loop-lieflow-v2-260701-2021/results.tsv",
+  "findings": [
+    "best_min_sharpe=-0.5968",
+    "kept=2 discarded=1",
+    "all_windows_positive=False"
+  ],
+  "config": {
+    "goal": "positive Sharpe all validation windows",
+    "metric": "min_sharpe",
+    "direction": "higher_is_better"
+  }
+}

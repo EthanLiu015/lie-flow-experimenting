@@ -1,0 +1,7 @@
+{
+  "status": "BOUNDED",
+  "n_eligible": 0,
+  "best": "gate c0.5 w0.25 sm18",
+  "results_tsv": "/Users/ethan/Documents/Duke Year 1/lie-flow-experimenting/autoresearch/loop-lieflow-honest-260702-0035/results.tsv",
+  "commit": "83f3454"
+}

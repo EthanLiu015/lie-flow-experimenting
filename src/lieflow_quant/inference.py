@@ -13,6 +13,20 @@ from scipy.spatial.transform import Rotation
 from lieflow.utils import seed_all
 
 
+def _checkpoint_n_steps(checkpoint: Path, fallback: int) -> int:
+    """Prefer ``n_steps`` saved with the checkpoint over current yaml defaults."""
+    hydra_config = checkpoint.resolve().parent.parent / ".hydra" / "config.yaml"
+    if not hydra_config.exists():
+        return fallback
+    try:
+        from omegaconf import OmegaConf
+
+        saved = OmegaConf.load(hydra_config)
+        return int(saved.test.n_steps)
+    except (AttributeError, TypeError, ValueError):
+        return fallback
+
+
 def load_so3_model(
     config_dir: Path | str,
     checkpoint: Path | str,
@@ -45,7 +59,8 @@ def load_so3_model(
             torch.load(checkpoint, map_location=device, weights_only=True)
         )
         net.eval()
-        return net, int(cfg.test.n_steps), cfg
+        n_steps = _checkpoint_n_steps(Path(checkpoint), int(cfg.test.n_steps))
+        return net, n_steps, cfg
 
 
 def z_rotation_angle_deg(rot_mat: np.ndarray) -> float:
@@ -98,7 +113,7 @@ def infer_cloud_symmetry(
     radial = np.linalg.norm(np.median(x_canon_np, axis=0) - centroid, axis=1)
 
     rot_mats = total_tf.cpu().numpy()
-    z_angles = np.array([z_rotation_angle_deg(r) % 360 for r in rot_mats])
+    z_angles = Rotation.from_matrix(rot_mats).as_euler("zyx", degrees=True)[:, 0] % 360
     hist, _ = np.histogram(z_angles, bins=36, range=(0, 360))
     concentration = float(hist.max() / max(hist.sum(), 1))
 

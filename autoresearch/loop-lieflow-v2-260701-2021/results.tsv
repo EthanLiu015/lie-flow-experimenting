@@ -1,0 +1,5 @@
+# metric_direction: higher_is_better (min_sharpe across 6 windows @ 10bps)
+iteration	timestamp	commit	min_sharpe	mean_sharpe	all_pos	guard	status	description
+0	2026-07-01T20:21:38.500878	83f3454	-1.163864	-0.550016	False	pass	keep	baseline radial smooth10
+1	2026-07-01T20:21:41.549516	83f3454	-0.596796	-0.225919	False	pass	keep	radial smooth20
+2	2026-07-01T20:21:44.480729	83f3454	-2.613650	-1.889911	False	pass	discard	radial sign flip

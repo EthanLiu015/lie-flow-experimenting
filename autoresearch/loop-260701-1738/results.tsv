@@ -1,0 +1,20 @@
+# metric_direction: higher_is_better
+iteration	timestamp	commit	metric	delta	guard	status	description
+0	2026-07-01T17:38:23.871752	83f3454	-1.784431	0.000000	pass	keep	baseline dedupe tickers
+1	2026-07-01T17:38:28.139385	83f3454	-2.704008	-0.919578	pass	discard	signal sign flip
+2	2026-07-01T17:38:32.583327	83f3454	-1.560291	0.224140	pass	keep	radial_distance feature
+3	2026-07-01T17:38:36.799657	83f3454	-2.233327	-0.673036	pass	discard	radial_distance sign flip
+4	2026-07-01T17:38:41.317986	83f3454	-0.058134	1.502157	pass	keep	canonical_vol feature
+5	2026-07-01T17:38:45.696098	83f3454	-2.792001	-2.733866	pass	discard	canonical_vol sign flip
+6	2026-07-01T17:38:50.378351	83f3454	-2.704008	-2.645874	pass	discard	neg momentum * concentration
+7	2026-07-01T17:38:54.934004	83f3454	-2.036128	-1.977993	pass	discard	signal smoothing 3d
+8	2026-07-01T17:38:59.339870	83f3454	-1.719519	-1.661384	pass	discard	signal smoothing 5d
+9	2026-07-01T17:39:02.750044	-	-	-	fail	crash	regime filter mid vix: too few OOS days
+10	2026-07-01T17:39:06.947338	83f3454	-2.218669	-2.160535	pass	discard	lag 2
+11	2026-07-01T17:39:11.508767	83f3454	-2.160958	-2.102823	pass	discard	hold 5 days
+12	2026-07-01T17:39:16.241050	83f3454	-1.309391	-1.251256	pass	discard	hold 5 + horizon 5
+13	2026-07-01T17:39:21.077928	83f3454	-1.449390	-1.391256	pass	discard	cost 2bps sensitivity
+14	2026-07-01T17:39:25.816481	83f3454	1.219650	1.277785	pass	keep	vol smooth 3
+15	2026-07-01T17:39:30.360516	83f3454	1.160023	-0.059627	pass	discard	vol smooth 5
+16	2026-07-01T17:39:34.898716	83f3454	1.671103	0.451453	pass	keep	vol smooth 10
+17	2026-07-01T17:39:39.680244	83f3454	1.687920	0.016817	pass	keep	vol smooth 20 (winner)

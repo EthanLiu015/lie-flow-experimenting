@@ -38,7 +38,7 @@ def main() -> None:
     parser.add_argument("--data-dir", type=Path, default=Path("data/equity"))
     parser.add_argument("--output-dir", type=Path, default=Path("outputs/strategy"))
     parser.add_argument("--lag", type=int, default=1, help="Trade lag in business days.")
-    parser.add_argument("--cost-bps", type=float, default=5.0)
+    parser.add_argument("--cost-bps", type=float, default=10.0)
     parser.add_argument("--hold-days", type=int, default=1)
     parser.add_argument("--forward-horizon", type=int, default=1)
     args = parser.parse_args()
@@ -60,13 +60,18 @@ def main() -> None:
         lag=args.lag,
         cost_bps=args.cost_bps,
         hold_days=args.hold_days,
+        dedupe_tickers=True,
+        forward_horizon=args.forward_horizon,
     )
     bench = run_momentum_benchmark(
         close,
         fwd,
         signal_dates=signals["date"],
+        universe_by_date=signals.groupby("date")["ticker"].apply(list).to_dict(),
         lag=args.lag,
         cost_bps=args.cost_bps,
+        hold_days=args.hold_days,
+        forward_horizon=args.forward_horizon,
     )
 
     summary = {

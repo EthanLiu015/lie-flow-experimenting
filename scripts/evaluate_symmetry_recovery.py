@@ -44,6 +44,12 @@ def main() -> None:
     parser.add_argument("--output-dir", type=Path, default=Path("outputs/eval"))
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--n-samples", type=int, default=2000)
+    parser.add_argument(
+        "--n-steps",
+        type=int,
+        default=None,
+        help="Flow integration steps (default: from checkpoint config)",
+    )
     args = parser.parse_args()
 
     args.output_dir.mkdir(parents=True, exist_ok=True)
@@ -72,11 +78,15 @@ def main() -> None:
             torch.load(args.checkpoint, map_location=args.device, weights_only=True)
         )
 
+        n_steps = args.n_steps if args.n_steps is not None else int(cfg.test.n_steps)
         angles = extract_angles(
-            model, test_dataset, args.device, args.n_samples, cfg.test.n_steps
+            model, test_dataset, args.device, args.n_samples, n_steps
         )
+        metrics_n_steps = n_steps
     metrics = angle_histogram_peaks(angles)
     metrics["wasserstein_to_c4"] = wasserstein_to_c4_angles(angles)
+    metrics["n_samples"] = args.n_samples
+    metrics["n_steps"] = metrics_n_steps
 
     fig, ax = plt.subplots(figsize=(8, 4))
     ax.bar(

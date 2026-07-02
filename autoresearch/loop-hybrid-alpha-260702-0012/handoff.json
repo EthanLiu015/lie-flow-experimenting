@@ -1,0 +1,7 @@
+{
+  "status": "CONVERGED",
+  "n_eligible": 189,
+  "best": "conc_scaled_momentum s1 w0.25 sm22 noc",
+  "results_tsv": "/Users/ethan/Documents/Duke Year 1/lie-flow-experimenting/autoresearch/loop-hybrid-alpha-260702-0012/results.tsv",
+  "commit": "83f3454"
+}

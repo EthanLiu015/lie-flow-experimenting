@@ -15,6 +15,7 @@ dataset:
     num_samples: 2_000
     random_seed: 42
     regime: null
+    split_mode: temporal
 
   test:
     _target_: lieflow_quant.dataset.CrossSectionCloudDataset
@@ -25,3 +26,4 @@ dataset:
     num_samples: 500
     random_seed: 42
     regime: null
+    split_mode: temporal

@@ -40,6 +40,9 @@ def main() -> None:
     )
     parser.add_argument("--n-mc", type=int, default=16, help="MC samples per day for concentration.")
     parser.add_argument("--concentration-window", type=int, default=60)
+    parser.add_argument("--signal-feature", default="canonical_vol")
+    parser.add_argument("--signal-sign", type=float, default=1.0)
+    parser.add_argument("--signal-smoothing", type=int, default=20)
     args = parser.parse_args()
 
     if not args.checkpoint.exists():
@@ -58,6 +61,9 @@ def main() -> None:
         max_days=args.max_days,
         n_mc=args.n_mc,
         concentration_window=args.concentration_window,
+        signal_feature=args.signal_feature,
+        signal_sign=args.signal_sign,
+        signal_smoothing=args.signal_smoothing,
     )
     print(f"Wrote {len(signals)} signal rows -> {args.output}")
     print(f"Date range: {signals['date'].min()} .. {signals['date'].max()}")

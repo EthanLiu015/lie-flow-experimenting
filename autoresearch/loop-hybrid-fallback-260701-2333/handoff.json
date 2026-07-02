@@ -1,0 +1,7 @@
+{
+  "status": "CONVERGED",
+  "n_eligible": 46,
+  "best": "hybrid fb c0.50 s16 w0.2 e0.75-1.00",
+  "results_tsv": "/Users/ethan/Documents/Duke Year 1/lie-flow-experimenting/autoresearch/loop-hybrid-fallback-260701-2333/results.tsv",
+  "commit": "83f3454"
+}

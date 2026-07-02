@@ -1,0 +1,8 @@
+{
+  "status": "CONVERGED",
+  "n_winners": 116,
+  "best": "hybrid c0.50 s10 w0.1 c5",
+  "inference_ml_test_only": false,
+  "results_tsv": "/Users/ethan/Documents/Duke Year 1/lie-flow-experimenting/autoresearch/loop-lieflow-sharpe-ret-260701-2234/results.tsv",
+  "commit": "83f3454"
+}

@@ -16,6 +16,64 @@ def zscore_row(x: np.ndarray) -> np.ndarray:
     return (x - x.mean()) / std
 
 
+def zscore_features(feat: np.ndarray) -> np.ndarray:
+    """Cross-sectionally z-score each feature column."""
+    mean = feat.mean(axis=0)
+    std = feat.std(axis=0)
+    std = np.where(std < 1e-8, 1.0, std)
+    return ((feat - mean) / std).astype(np.float32)
+
+
+def select_universe_tickers(
+    tickers: list[str],
+    size: np.ndarray,
+    n_target: int,
+    *,
+    rank_by: str = "size",
+) -> np.ndarray:
+    """
+    Choose ``n_target`` names from a valid cross-section.
+
+    Default ranks by descending size proxy (log price) to avoid alphabetical bias.
+    """
+    n = min(len(tickers), n_target)
+    if rank_by == "size":
+        order = np.argsort(-size, kind="stable")[:n]
+    elif rank_by == "alphabetical":
+        order = np.arange(n)
+    else:
+        raise ValueError(f"Unknown rank_by: {rank_by}")
+    return order
+
+
+def assign_expanding_vix_regime(
+    vix: np.ndarray,
+    *,
+    min_history: int = 60,
+) -> np.ndarray:
+    """Label VIX regime using quantiles from strictly prior observations only."""
+    s = pd.Series(vix, dtype=float)
+    prior = s.shift(1)
+    q33 = prior.expanding(min_periods=min_history).quantile(0.3333)
+    q66 = prior.expanding(min_periods=min_history).quantile(0.6667)
+
+    regime = np.full(len(vix), "unknown", dtype=object)
+    valid = s.notna()
+    has_hist = prior.expanding(min_periods=min_history).count() >= min_history
+    mid_mask = valid & ~has_hist
+    regime[mid_mask.to_numpy()] = "mid"
+
+    hist_mask = valid & has_hist
+    vals = s[hist_mask].to_numpy()
+    lo = q33[hist_mask].to_numpy()
+    hi = q66[hist_mask].to_numpy()
+    idx = np.where(hist_mask)[0]
+    regime[idx[vals <= lo]] = "low"
+    regime[idx[(vals > lo) & (vals <= hi)]] = "mid"
+    regime[idx[vals > hi]] = "high"
+    return regime
+
+
 @dataclass
 class DailyCrossSection:
     date: pd.Timestamp
@@ -32,13 +90,16 @@ def build_daily_cross_sections(
     vol_window: int = 20,
     min_stocks: int = 40,
     n_target: int = 50,
+    pad_to_target: bool = False,
+    universe_rank_by: str = "size",
     vix: pd.Series | None = None,
 ) -> list[DailyCrossSection]:
     """
     Build daily cross-section clouds aligned with tickers.
 
     Features per stock: 20d momentum, 20d realized vol, log price (size proxy),
-    cross-sectionally z-scored each day.
+    cross-sectionally z-scored each day. When ``len(valid) > n_target``, keeps the
+    top ``n_target`` names by size proxy (not column order).
     """
     tickers = [c for c in close.columns if c != "^VIX"]
     px = close[tickers].dropna(how="all", axis=1)
@@ -48,35 +109,47 @@ def build_daily_cross_sections(
     realized_vol = log_ret.rolling(vol_window).std() * np.sqrt(252)
     log_cap_proxy = np.log(px.replace(0, np.nan))
 
-    sections: list[DailyCrossSection] = []
-    for date in px.index:
-        row_mom = momentum.loc[date]
-        row_vol = realized_vol.loc[date]
-        row_size = log_cap_proxy.loc[date]
+    mom_arr = momentum.to_numpy(dtype=np.float32)
+    vol_arr = realized_vol.to_numpy(dtype=np.float32)
+    size_arr = log_cap_proxy.to_numpy(dtype=np.float32)
+    ticker_names = momentum.columns.tolist()
+    n_tickers = len(ticker_names)
 
-        mask = row_mom.notna() & row_vol.notna() & row_size.notna()
+    sections: list[DailyCrossSection] = []
+    for i, date in enumerate(px.index):
+        row_mom = mom_arr[i]
+        row_vol = vol_arr[i]
+        row_size = size_arr[i]
+
+        mask = np.isfinite(row_mom) & np.isfinite(row_vol) & np.isfinite(row_size)
         if mask.sum() < min_stocks:
             continue
 
-        day_tickers = row_mom.index[mask].tolist()
-        mom = row_mom[mask].to_numpy(dtype=np.float32)
-        vol = row_vol[mask].to_numpy(dtype=np.float32)
-        size = row_size[mask].to_numpy(dtype=np.float32)
+        mom = row_mom[mask]
+        vol = row_vol[mask]
+        size = row_size[mask]
+        day_tickers = [ticker_names[j] for j in np.nonzero(mask)[0]]
 
         feat = np.stack([mom, vol, size], axis=1)
-        feat = np.array([zscore_row(feat[:, i]) for i in range(3)]).T
+        feat = zscore_features(feat)
 
         if len(feat) < n_target:
-            pad_n = n_target - len(feat)
-            feat = np.vstack([feat, np.tile(feat[-1:], (pad_n, 1))])
-            day_tickers = day_tickers + [day_tickers[-1]] * pad_n
-        else:
-            feat = feat[:n_target]
-            day_tickers = day_tickers[:n_target]
+            if pad_to_target:
+                pad_n = n_target - len(feat)
+                feat = np.vstack([feat, np.tile(feat[-1:], (pad_n, 1))])
+                day_tickers = day_tickers + [day_tickers[-1]] * pad_n
+            else:
+                continue
+        elif len(feat) > n_target:
+            order = select_universe_tickers(
+                day_tickers, size, n_target, rank_by=universe_rank_by
+            )
+            feat = feat[order]
+            day_tickers = [day_tickers[i] for i in order]
 
         vix_val = None
         if vix is not None and date in vix.index:
-            vix_val = float(vix.loc[date])
+            vix_val = float(vix.iloc[vix.index.get_loc(date)])
 
         sections.append(
             DailyCrossSection(
@@ -98,6 +171,8 @@ def load_equity_panel(data_dir: Path | str) -> tuple[pd.DataFrame, pd.Series | N
         raise FileNotFoundError(f"Missing {close_path}; run download_equity_panel.py")
 
     close = pd.read_csv(close_path, index_col=0, parse_dates=True)
+    tickers = [c for c in close.columns if c != "^VIX"]
+    close[tickers] = close[tickers].astype(np.float32)
     vix = None
     if vix_path.exists():
         vix = pd.read_csv(vix_path, index_col=0, parse_dates=True)["vix"]
