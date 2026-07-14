@@ -58,6 +58,36 @@ def _cross_sectional_weights_np(signals: np.ndarray, gross_exposure: float) -> n
     return centered / denom * gross_exposure
 
 
+def _cross_sectional_weights_topbottom(
+    signals: np.ndarray,
+    gross_exposure: float,
+    long_n: int,
+    short_n: int,
+) -> np.ndarray:
+    """Weights using only the top long_n and bottom short_n by signal rank."""
+    n = len(signals)
+    if n == 0:
+        return signals
+    order = np.argsort(signals, kind="stable")
+    keep = np.zeros(n, dtype=bool)
+    keep[order[:short_n]] = True
+    keep[order[-long_n:]] = True
+    filtered = np.where(keep, signals, np.nan)
+    valid_mask = ~np.isnan(filtered)
+    if valid_mask.sum() < 2:
+        return np.zeros(n)
+    valid_vals = filtered[valid_mask]
+    ranks = _average_ranks(valid_vals) / len(valid_vals)
+    centered = ranks - ranks.mean()
+    denom = float(np.abs(centered).sum())
+    if denom < 1e-12:
+        return np.zeros(n)
+    w_valid = centered / denom * gross_exposure
+    out = np.zeros(n)
+    out[valid_mask] = w_valid
+    return out
+
+
 def _turnover_dict(current: dict[str, float], previous: dict[str, float] | None) -> float:
     if previous is None:
         return 0.0
@@ -204,6 +234,8 @@ def run_backtest(
     dedupe_tickers: bool = True,
     forward_horizon: int = 1,
     fill_calendar: bool = True,
+    long_n: int = 0,
+    short_n: int = 0,
 ) -> BacktestResult:
     """
     Backtest canonical-residual L/S with symmetry concentration overlay.
@@ -236,6 +268,7 @@ def run_backtest(
     ic_list: list[float] = []
     ic_dates: list[pd.Timestamp] = []
     use_fast_path = hold_days <= 1
+    _use_topbottom = long_n > 0 and short_n > 0
 
     for date, day in sig.groupby("date", sort=True):
         if day.empty:
@@ -262,7 +295,11 @@ def run_backtest(
                 prev_weights = w_dict
                 continue
 
-            target_w = _cross_sectional_weights_np(sig_vals, gross)
+            target_w = (
+                _cross_sectional_weights_topbottom(sig_vals, gross, long_n, short_n)
+                if _use_topbottom
+                else _cross_sectional_weights_np(sig_vals, gross)
+            )
             fwd_row = fwd_values[row_i]
             col_idx = np.fromiter((col_pos.get(t, -1) for t in tickers), dtype=np.int64, count=len(tickers))
             valid = col_idx >= 0

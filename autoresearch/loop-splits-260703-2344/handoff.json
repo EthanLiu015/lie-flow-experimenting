@@ -1,0 +1,13 @@
+{
+  "status": "CONVERGED",
+  "baseline": "raw sm22 L30S30",
+  "baseline_sharpe": 1.6920563450528399,
+  "baseline_return": 0.32997409466554695,
+  "winner": "raw sm22 L5S5",
+  "winner_sharpe": 1.6954596609947756,
+  "winner_return": 0.6962963335887438,
+  "winner_drawdown": -0.12251904881401454,
+  "beats_baseline": true,
+  "commit": "ef38d03",
+  "results_dir": "/Users/ethan/Documents/Duke Year 1/lie-flow-experimenting/autoresearch/loop-splits-260703-2344"
+}

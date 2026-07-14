@@ -67,6 +67,8 @@ class MultiWindowConfig:
     mom_book_weight: float = 0.4
     mom_window: int = 20
     mom_signal_smoothing: int = 18
+    long_n: int = 0
+    short_n: int = 0
     conc_good_ratio: float = 1.0
     conc_bad_ratio: float = 0.85
     exposure_neutral: float = 0.65
@@ -381,6 +383,8 @@ class EvalSession:
             DEFAULT_PERIODS,
             cost_bps=config.cost_bps,
             lag=config.lag,
+            long_n=config.long_n,
+            short_n=config.short_n,
         )
         period_names = tuple(p.name for p in DEFAULT_PERIODS)
         agg = aggregate_multiwindow_metrics(period_metrics, period_names)

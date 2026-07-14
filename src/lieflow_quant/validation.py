@@ -134,6 +134,8 @@ def evaluate_multiwindow_fast(
     cost_bps: float = 10.0,
     lag: int = 1,
     hold_days: int = 1,
+    long_n: int = 0,
+    short_n: int = 0,
 ) -> dict[str, dict]:
     """
     One backtest pass, slice daily returns/IC by period (hold_days=1).
@@ -150,6 +152,8 @@ def evaluate_multiwindow_fast(
         cost_bps=cost_bps,
         hold_days=hold_days,
         fill_calendar=True,
+        long_n=long_n,
+        short_n=short_n,
     )
     daily = result.daily_returns
     turnover = result.turnover
